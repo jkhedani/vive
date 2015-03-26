@@ -100,7 +100,14 @@ add_action( 'widgets_init', 'vive_widgets_init' );
  * Enqueue scripts and styles.
  */
 function vive_scripts() {
+
+	wp_enqueue_style( 'google-fonts-source-sans', '//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600' );
+
+	wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/bower_components/bootstrap/dist/css/bootstrap.min.css' );
+
 	wp_enqueue_style( 'vive-style', get_stylesheet_uri() );
+
+	wp_enqueue_script( 'vive-scripts', get_template_directory_uri() . '/js/scripts.js', array(), '', true );
 
 	wp_enqueue_script( 'vive-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20120206', true );
 
@@ -136,3 +143,81 @@ require get_template_directory() . '/inc/customizer.php';
  * Load Jetpack compatibility file.
  */
 require get_template_directory() . '/inc/jetpack.php';
+
+/**
+ *  Vive Custom Post Types
+ */
+add_action( 'init', 'vive_register_post_types');
+function vive_register_post_types() {
+
+	// Specials
+	$labels = array(
+		'name'               => _x( 'Specials', 'post type general name', 'vive' ),
+		'singular_name'      => _x( 'Special', 'post type singular name', 'vive' ),
+		'menu_name'          => _x( 'Specials', 'admin menu', 'vive' ),
+		'name_admin_bar'     => _x( 'Special', 'add new on admin bar', 'vive' ),
+		'add_new'            => _x( 'Add New', 'specials', 'vive' ),
+		'add_new_item'       => __( 'Add New Special', 'vive' ),
+		'new_item'           => __( 'New Special', 'vive' ),
+		'edit_item'          => __( 'Edit Special', 'vive' ),
+		'view_item'          => __( 'View Special', 'vive' ),
+		'all_items'          => __( 'All Specials', 'vive' ),
+		'search_items'       => __( 'Search Specials', 'vive' ),
+		'parent_item_colon'  => __( 'Parent Specials:', 'vive' ),
+		'not_found'          => __( 'No specials found.', 'vive' ),
+		'not_found_in_trash' => __( 'No specials found in Trash.', 'vive' )
+	);
+
+	$args = array(
+		'labels'             => $labels,
+		'public'             => true,
+		'publicly_queryable' => true,
+		'show_ui'            => true,
+		'show_in_menu'       => true,
+		'query_var'          => true,
+		'rewrite'            => array( 'slug' => 'specials' ),
+		'capability_type'    => 'post',
+		'has_archive'        => true,
+		'hierarchical'       => false,
+		'menu_position'      => null,
+		'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt' )
+	);
+
+	register_post_type( 'specials', $args );
+
+	// Accommodations
+	$labels = array(
+		'name'               => _x( 'Accommodations', 'post type general name', 'vive' ),
+		'singular_name'      => _x( 'Accommodation', 'post type singular name', 'vive' ),
+		'menu_name'          => _x( 'Accommodations', 'admin menu', 'vive' ),
+		'name_admin_bar'     => _x( 'Accommodation', 'add new on admin bar', 'vive' ),
+		'add_new'            => _x( 'Add New', 'accommodations', 'vive' ),
+		'add_new_item'       => __( 'Add New Accommodation', 'vive' ),
+		'new_item'           => __( 'New Accommodation', 'vive' ),
+		'edit_item'          => __( 'Edit Accommodation', 'vive' ),
+		'view_item'          => __( 'View Accommodation', 'vive' ),
+		'all_items'          => __( 'All Accommodations', 'vive' ),
+		'search_items'       => __( 'Search Accommodations', 'vive' ),
+		'parent_item_colon'  => __( 'Parent Accommodations:', 'vive' ),
+		'not_found'          => __( 'No accommodations found.', 'vive' ),
+		'not_found_in_trash' => __( 'No accommodations found in Trash.', 'vive' )
+	);
+
+	$args = array(
+		'labels'             => $labels,
+		'public'             => true,
+		'publicly_queryable' => true,
+		'show_ui'            => true,
+		'show_in_menu'       => true,
+		'query_var'          => true,
+		'rewrite'            => array( 'slug' => 'accommodations' ),
+		'capability_type'    => 'post',
+		'has_archive'        => true,
+		'hierarchical'       => false,
+		'menu_position'      => null,
+		'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt' )
+	);
+
+	register_post_type( 'accommodations', $args );
+
+}
