@@ -10,12 +10,14 @@
 
 	</div><!-- #content -->
 
-	<footer id="colophon" class="site-footer" role="contentinfo">
-		<div class="site-info">
-			<a href="<?php echo esc_url( __( 'http://wordpress.org/', 'vive' ) ); ?>"><?php printf( __( 'Proudly powered by %s', 'vive' ), 'WordPress' ); ?></a>
-			<span class="sep"> | </span>
-			<?php printf( __( 'Theme: %1$s by %2$s.', 'vive' ), 'Vive', '<a href="http://nellamediagroup.com" rel="designer">Binary Habitat & Nella Media Group</a>' ); ?>
-		</div><!-- .site-info -->
+	<footer id="colophon" class="site-footer row" role="contentinfo">
+		<div class="container">
+			<div class="site-info">
+				<a href="<?php echo esc_url( __( 'http://wordpress.org/', 'vive' ) ); ?>"><?php printf( __( 'Proudly powered by %s', 'vive' ), 'WordPress' ); ?></a>
+				<span class="sep"> | </span>
+				<?php printf( __( 'Theme: %1$s by %2$s.', 'vive' ), 'Vive', '<a href="http://nellamediagroup.com" rel="designer">Binary Habitat & Nella Media Group</a>' ); ?>
+			</div><!-- .site-info -->
+		</div>
 	</footer><!-- #colophon -->
 </div><!-- #page -->
 
