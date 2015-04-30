@@ -1,0 +1,9 @@
+# OSX
+.DS_Store
+
+# Miscellaneous
+config.codekit
+
+#CodeKit
+config.codekit
+.codekit-cache/

@@ -46,7 +46,7 @@ function vive_setup() {
 	 *
 	 * @link http://codex.wordpress.org/Function_Reference/add_theme_support#Post_Thumbnails
 	 */
-	//add_theme_support( 'post-thumbnails' );
+	add_theme_support( 'post-thumbnails' );
 
 	// This theme uses wp_nav_menu() in one location.
 	register_nav_menus( array(
@@ -101,11 +101,29 @@ add_action( 'widgets_init', 'vive_widgets_init' );
  */
 function vive_scripts() {
 
-	wp_enqueue_style( 'google-fonts-source-sans', '//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600' );
+	wp_enqueue_style( 'google-fonts-source-sans', '//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' );
 
-	wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/bower_components/bootstrap/dist/css/bootstrap.min.css' );
+	wp_enqueue_style( 'font-awesome', get_template_directory_uri() . '/bower_components/font-awesome/css/font-awesome.min.css' );
+
+	wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/less/bootstrap.css' );
 
 	wp_enqueue_style( 'vive-style', get_stylesheet_uri() );
+
+	wp_enqueue_script( 'bootstrap-transition', get_template_directory_uri() . '/bower_components/bootstrap/js/transition.js', array('jquery'), '', true );
+
+	wp_enqueue_script( 'bootstrap-collapse', get_template_directory_uri() . '/bower_components/bootstrap/js/collapse.js', array('jquery'), '', true );
+
+	wp_enqueue_script( 'bootstrap-tooltip', get_template_directory_uri() . '/bower_components/bootstrap/js/tooltip.js', array('jquery'), '', true );
+
+	wp_enqueue_script( 'bootstrap-dropdown', get_template_directory_uri() . '/bower_components/bootstrap/js/dropdown.js', array('jquery'), '', true );
+
+	wp_enqueue_script( 'bootstrap-tabs', get_template_directory_uri() . '/bower_components/bootstrap/js/tab.js', array('jquery'), '', true );
+
+	wp_enqueue_script( 'smooth-scroll', get_template_directory_uri() . '/bower_components/smooth-scroll/dist/js/smooth-scroll.js', array(), '', true );
+
+	wp_enqueue_script( 'moment', get_template_directory_uri() . '/bower_components/moment/moment.js', array(), '', true );
+
+	wp_enqueue_script( 'pikaday', get_template_directory_uri() . '/bower_components/pikaday/pikaday.js', array(), '', true );
 
 	wp_enqueue_script( 'vive-scripts', get_template_directory_uri() . '/js/scripts.js', array(), '', true );
 
@@ -145,6 +163,19 @@ require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/jetpack.php';
 
 /**
+ *	Add Slug to Body Class
+ */
+//Page Slug Body Class
+function add_slug_body_class( $classes ) {
+	global $post;
+	if ( isset( $post ) ) {
+	$classes[] = $post->post_type . '-' . $post->post_name;
+	}
+	return $classes;
+}
+add_filter( 'body_class', 'add_slug_body_class' );
+
+/**
  *  Vive Custom Post Types
  */
 add_action( 'init', 'vive_register_post_types');
@@ -167,7 +198,6 @@ function vive_register_post_types() {
 		'not_found'          => __( 'No specials found.', 'vive' ),
 		'not_found_in_trash' => __( 'No specials found in Trash.', 'vive' )
 	);
-
 	$args = array(
 		'labels'             => $labels,
 		'public'             => true,
@@ -177,12 +207,11 @@ function vive_register_post_types() {
 		'query_var'          => true,
 		'rewrite'            => array( 'slug' => 'specials' ),
 		'capability_type'    => 'post',
-		'has_archive'        => true,
+		'has_archive'        => false, // False to prevent actual page to show archive
 		'hierarchical'       => false,
 		'menu_position'      => null,
-		'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt' )
+		'supports'           => array( 'title', 'editor', 'thumbnail', 'excerpt' )
 	);
-
 	register_post_type( 'specials', $args );
 
 	// Accommodations
@@ -202,7 +231,6 @@ function vive_register_post_types() {
 		'not_found'          => __( 'No accommodations found.', 'vive' ),
 		'not_found_in_trash' => __( 'No accommodations found in Trash.', 'vive' )
 	);
-
 	$args = array(
 		'labels'             => $labels,
 		'public'             => true,
@@ -212,12 +240,44 @@ function vive_register_post_types() {
 		'query_var'          => true,
 		'rewrite'            => array( 'slug' => 'accommodations' ),
 		'capability_type'    => 'post',
-		'has_archive'        => true,
+		'has_archive'        => false, // False to prevent actual page to show archive
 		'hierarchical'       => false,
 		'menu_position'      => null,
-		'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt' )
+		'supports'           => array( 'title', 'editor', 'thumbnail' )
 	);
-
 	register_post_type( 'accommodations', $args );
+
+	// Galleries
+	$labels = array(
+		'name'               => _x( 'Galleries', 'post type general name', 'vive' ),
+		'singular_name'      => _x( 'Gallery', 'post type singular name', 'vive' ),
+		'menu_name'          => _x( 'Galleries', 'admin menu', 'vive' ),
+		'name_admin_bar'     => _x( 'Gallery', 'add new on admin bar', 'vive' ),
+		'add_new'            => _x( 'Add New', 'galleries', 'vive' ),
+		'add_new_item'       => __( 'Add New Gallery', 'vive' ),
+		'new_item'           => __( 'New Gallery', 'vive' ),
+		'edit_item'          => __( 'Edit Gallery', 'vive' ),
+		'view_item'          => __( 'View Gallery', 'vive' ),
+		'all_items'          => __( 'All Galleries', 'vive' ),
+		'search_items'       => __( 'Search Galleries', 'vive' ),
+		'parent_item_colon'  => __( 'Parent Galleries:', 'vive' ),
+		'not_found'          => __( 'No galleries found.', 'vive' ),
+		'not_found_in_trash' => __( 'No galleries found in Trash.', 'vive' )
+	);
+	$args = array(
+		'labels'             => $labels,
+		'public'             => true,
+		'publicly_queryable' => true,
+		'show_ui'            => true,
+		'show_in_menu'       => true,
+		'query_var'          => true,
+		'rewrite'            => array( 'slug' => 'galleries' ),
+		'capability_type'    => 'post',
+		'has_archive'        => false, // False to prevent actual page to show archive
+		'hierarchical'       => false,
+		'menu_position'      => null,
+		'supports'           => array( 'title' )
+	);
+	register_post_type( 'galleries', $args );
 
 }

@@ -1,0 +1,1 @@
+var galleryjs=function(){var n=function(){},r=function(){};return{public_method:r}}(galleryjs);
