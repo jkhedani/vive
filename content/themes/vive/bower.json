@@ -24,7 +24,8 @@
     "font-awesome": "~4.3.0",
     "smooth-scroll": "https://github.com/cferdinandi/smooth-scroll.git",
     "pikaday": "~1.3.2",
-    "moment": "~2.10.2"
+    "moment": "~2.10.2",
+    "animate.css": "~3.2.6"
   },
   "devDependencies": {
     "less": "~2.4.0"

@@ -58,12 +58,18 @@
 
 							<div class="check-in-container form-group">
 								<label for="check-in">Check <span class="orange">In</span></label>
-								<input id="check-in" type="text" class="form-control"></input>
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+									<input id="check-in" type="text" class="form-control"></input>
+								</div>
 							</div>
 
 							<div class="check-out-container form-group">
 								<label for="check-out">Check <span class="orange">Out</span></label>
-								<input id="check-out" type="text" class="form-control"></input>
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+									<input id="check-out" type="text" class="form-control"></input>
+								</div>
 							</div>
 
 							<div class="adult-count-container form-group">
@@ -75,7 +81,7 @@
 							</div>
 
 							<div class="special-select-container form-group">
-								<label for="special-select">Select A <span class="orange">Vive Special</span></label>
+								<label for="special-select">Promotional <span class="orange">Code</span></label>
 								<input id="special-select" type="text" class="form-control"></input>
 							</div>
 

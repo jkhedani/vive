@@ -107,6 +107,8 @@ function vive_scripts() {
 
 	wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/less/bootstrap.css' );
 
+	wp_enqueue_style( 'animatecss', get_template_directory_uri() . '/bower_components/animate.css/animate.css' );
+
 	wp_enqueue_style( 'vive-style', get_stylesheet_uri() );
 
 	wp_enqueue_script( 'bootstrap-transition', get_template_directory_uri() . '/bower_components/bootstrap/js/transition.js', array('jquery'), '', true );
@@ -174,6 +176,18 @@ function add_slug_body_class( $classes ) {
 	return $classes;
 }
 add_filter( 'body_class', 'add_slug_body_class' );
+
+/**
+ *	Get ID by Slug
+ */
+function get_ID_by_slug($page_slug) {
+  $page = get_page_by_path($page_slug);
+  if ($page) {
+      return $page->ID;
+  } else {
+      return null;
+  }
+}
 
 /**
  *  Vive Custom Post Types

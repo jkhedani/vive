@@ -25,7 +25,6 @@ var galleryjs = (function() {
     interval : 3000
   };
 
-
   // Initialization to be run on page load
   var init = function(options) {
     // If options exists, replace necessary options
@@ -36,25 +35,75 @@ var galleryjs = (function() {
     }
     // Options
     var gallery_id = _config.gallery_id;
-    // Private Init Functions
+    // Functions: Start Slide Animation
     var _startSlideAnimation = function( interval ) {
       gallery_slide_interval = setInterval( _slideGallery, interval);
     };
+
+    // Functions: Define Gallery
     var _slideGallery = function() {
+      // Find gallery list
+      var gallery_slide_list = document.getElementById(gallery_id).getElementsByClassName('gallery')[0];
+      var gallery_slide_list_children = gallery_slide_list.children;
+
+      // Find gallery breadcrumbs
+      var gallery_breadcrumbs = document.getElementById(gallery_id).getElementsByClassName('gallery-breadcrumbs')[0];
+
       // Find active element
-      var active_element = document.getElementById(gallery_id).getElementsByClassName('gallery')[0].getElementsByClassName('active')[0];
+      var next_active_slide, next_active_breadcrumb;
+      var active_slide      = document.getElementById(gallery_id).getElementsByClassName('gallery')[0].getElementsByClassName('active')[0];
+      var active_breadcrumb = document.getElementById(gallery_id).getElementsByClassName('gallery-breadcrumbs')[0].getElementsByClassName('active')[0];
 
-      // // Find next element to make active
-      var next_active_element = active_element.nextElementSibling;
+      // Move Active Class For Gallery & Breadcrumbs
+      // If not, go back to first
+      if (gallery_slide_list.children[gallery_slide_list_children.length - 1].className === 'animated slideInLeft active') {
+        // Find next element to make active
+        next_active_slide = gallery_slide_list.children[0];
+        next_active_breadcrumb = gallery_breadcrumbs.children[0];
+        active_slide.className = active_slide.className.replace('active','');
+        active_breadcrumb.className = active_breadcrumb.className.replace('active','');
+        next_active_slide.className = next_active_slide.className += 'active';
+        next_active_breadcrumb.className = next_active_breadcrumb.className += 'active';
+      } else {
+        // Find next element to make active
+        next_active_slide = active_slide.nextElementSibling;
+        next_active_breadcrumb = active_breadcrumb.nextElementSibling;
+        active_slide.className = active_slide.className.replace('active','');
+        active_breadcrumb.className = active_breadcrumb.className.replace('active','');
+        next_active_slide.className = next_active_slide.className += 'active';
+        next_active_breadcrumb.className = next_active_breadcrumb.className += 'active';
+      }
+    };
 
-      //active_element.className = '';
-      next_active_element.className = 'active';
+    // Set active element on click
+    var _setActiveSlide = function() {
 
-      // // If not, go back to first
+      // A. Move linear (next/prev)
+
+
+      // B. Move non-linear (breadcrumbs)
+      var breadcrumbs = document.getElementsByClassName('gallery-breadcrumbs')[0].children;
+      for ( var i = 0; i < breadcrumbs.length; i++ ) {
+        breadcrumbs[i].addEventListener('click', function() {
+
+          // Remove current active class from all gallery children & breadcrumb
+          var gallery_children = document.getElementsByClassName('gallery')[0].children;
+          for ( var j = 0; j < gallery_children.length; j++ ) {
+            gallery_children[j].className = '';
+            breadcrumbs[j].className = '';
+          }
+
+          // Set the active class on the appropriate child based on data attr
+          var slide_to_go_to = this.getAttribute('data-go-to-slide');
+          gallery_children[slide_to_go_to].className = 'active';
+          this.className = 'active';
+        });
+      }
+
     };
 
     _startSlideAnimation( _config.interval );
-
+    _setActiveSlide();
   };
 
   var public_method = function() {
@@ -74,18 +123,27 @@ var galleryjs = (function() {
  */
 var vive_init = function() {
   // Initialize gallery
-  // var options = {
-  //   gallery_id: "galleryjs-home",
-  //   interval: 2000
-  // };
-  // galleryjs.init(options);
+  var options = {
+    gallery_id: "galleryjs-home",
+    interval: 7000
+  };
+  galleryjs.init(options);
+
+
 
   // Hide Intro Video
+  // var viveStorage = localStorage;
   // var close_intro_video_trigger = document.getElementById('close-intro-video');
   // close_intro_video_trigger.addEventListener("click", function() {
   //   var intro_video_container = document.getElementById('intro-video-container');
   //   intro_video_container.className = intro_video_container.className + ' hide';
+  //   viveStorage.setItem('video_played',true);
   // });
+  //
+  // if ( viveStorage.getItem('video_played') === "true" ) {
+  //   var intro_video_container = document.getElementById('intro-video-container');
+  //   intro_video_container.className = intro_video_container.className + ' hide';
+  // }
 
   // HasClass
   Element.prototype.hasClass = function(className) {
